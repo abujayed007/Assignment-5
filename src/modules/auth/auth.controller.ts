@@ -3,9 +3,12 @@ import { catchAsync } from "../../utils/catchAsync";
 import { AuthServices } from "./auth.service";
 import { sendResponse } from "../../utils/sendResponse";
 import httpStatus from "http-status-codes";
+import setAuthCookie from "../../utils/setCookie";
 
 const credentialLogin = catchAsync(async (req: Request, res: Response) => {
   const loginInfo = await AuthServices.credentialLogin(req.body);
+
+  setAuthCookie(res, loginInfo);
 
   sendResponse(res, {
     success: true,

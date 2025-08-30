@@ -1,0 +1,39 @@
+import AppError from "../../errorHelpers/AppError";
+import { IUser } from "../user/user.interface";
+import { User } from "../user/user.model";
+import httpStatus from "http-status-codes";
+import bcryptjs from "bcryptjs";
+import { createUserToken } from "../../utils/userToken";
+
+const credentialLogin = async (payload: Partial<IUser>) => {
+  const { email, password } = payload;
+
+  const isUserExists = await User.findOne({ email });
+
+  if (!isUserExists) {
+    throw new AppError(httpStatus.BAD_REQUEST, "User does not exist");
+  }
+
+  const isPasswordMatched = await bcryptjs.compare(
+    password as string,
+    isUserExists.password
+  );
+
+  if (!isPasswordMatched) {
+    throw new AppError(httpStatus.BAD_REQUEST, "Incorrect Password");
+  }
+
+  const userTokens = createUserToken(isUserExists);
+
+  const { password: pass, ...rest } = isUserExists.toObject();
+
+  return {
+    accessToken: userTokens.accessToken,
+    refreshToken: userTokens.refreshToken,
+    user: rest,
+  };
+};
+
+export const AuthServices = {
+  credentialLogin,
+};

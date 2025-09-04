@@ -6,9 +6,9 @@ import bcryptjs from "bcryptjs";
 import { createUserToken } from "../../utils/userToken";
 
 const credentialLogin = async (payload: Partial<IUser>) => {
-  const { email, password } = payload;
+  const { phone, password } = payload;
 
-  const isUserExists = await User.findOne({ email });
+  const isUserExists = await User.findOne({ phone });
 
   if (!isUserExists) {
     throw new AppError(httpStatus.BAD_REQUEST, "User does not exist");

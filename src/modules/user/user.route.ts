@@ -10,5 +10,6 @@ router.post(
   validateRequest(createUserZodSchema),
   UserControllers.createUser
 );
+// router.post("/topup", UserControllers.topUpBalance);
 
 export const UserRoute = router;

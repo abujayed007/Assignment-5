@@ -6,10 +6,19 @@ export enum Role {
   AGENT = "AGENT",
 }
 
+export enum Status {
+  ACTIVE = "ACTIVE",
+  BLOCKED = "BLOCKED",
+  PENDING = "PENDING",
+  SUSPENDED = "SUSPENDED",
+}
+
 export interface IUser {
   _id?: Types.ObjectId;
   name: string;
-  email: string;
+  phone: string;
   password: string;
   role: Role;
+  status: Status;
+  commisionRate?: number;
 }

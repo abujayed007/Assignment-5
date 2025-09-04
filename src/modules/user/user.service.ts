@@ -1,13 +1,15 @@
 import AppError from "../../errorHelpers/AppError";
-import { IUser } from "./user.interface";
+import { IUser, Role } from "./user.interface";
 import { User } from "./user.model";
 import httpStatus from "http-status-codes";
 import bcryptjs from "bcryptjs";
 import { envVars } from "../../config/env";
+import { Wallet } from "../wallet/wallet.model";
+import { Transaction } from "../transaction/transaction.model";
 
 const createUser = async (payload: Partial<IUser>) => {
-  const { email, password, ...rest } = payload;
-  const isUserExist = await User.findOne({ email });
+  const { phone, password, ...rest } = payload;
+  const isUserExist = await User.findOne({ phone });
 
   if (isUserExist) {
     throw new AppError(httpStatus.BAD_REQUEST, "User already exists");
@@ -19,13 +21,23 @@ const createUser = async (payload: Partial<IUser>) => {
   );
 
   const user = await User.create({
-    email: payload.email,
+    phone: payload.phone,
     password: hashedPassword,
     ...rest,
   });
+
+  if (user.role !== Role.ADMIN) {
+    await Wallet.create({
+      user: user._id,
+      balance: 50,
+      isBlocked: false,
+    });
+  }
+
   return user;
 };
 
 export const UserServices = {
   createUser,
+  // topUpBalance,
 };

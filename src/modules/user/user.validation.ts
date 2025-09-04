@@ -8,7 +8,15 @@ export const createUserZodSchema = z.object({
     .max(50, "Name must be less than 50 characters")
     .nonempty("Name is required"),
 
-  email: z.email("Invalid email address").nonempty("Email is required"),
+  phone: z
+    .string()
+    .min(1, "Minimum 11 number")
+    .length(11, "Must be exactly 11 digits")
+    .trim()
+    .regex(/^(\+88)?01[3-9]\d{8}$/, {
+      message:
+        "Must be a valid Bangladeshi number (01XXXXXXXXX or +8801XXXXXXXXX)",
+    }),
 
   password: z
     .string()

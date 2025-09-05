@@ -1,7 +1,7 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Request, Response } from "express";
 import { WalletServices } from "./wallet.service";
 import { sendResponse } from "../../utils/sendResponse";
-import AppError from "../../errorHelpers/AppError";
 import { AuthRequest } from "../../middlewares/checkAuth";
 import { catchAsync } from "../../utils/catchAsync";
 import httpStatus from "http-status-codes";
@@ -18,7 +18,7 @@ const getAllWallets = catchAsync(async (req: Request, res: Response) => {
 
 const withdrawMoney = catchAsync(async (req: AuthRequest, res: Response) => {
   const { balance, agentPhone } = req.body;
-  console.log({ agentPhone });
+
   const userPhone = req.user!.phone;
 
   const result = await WalletServices.withdrawMoney(

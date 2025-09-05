@@ -1,4 +1,4 @@
-import { User } from "../user/user.model";
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { ITransaction } from "./transaction.interface";
 import { Transaction } from "./transaction.model";
 

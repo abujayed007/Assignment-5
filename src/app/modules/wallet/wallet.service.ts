@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Wallet } from "./wallet.model";
 import AppError from "../../errorHelpers/AppError";
 import httpStatus from "http-status-codes";

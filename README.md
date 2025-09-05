@@ -62,40 +62,40 @@ Role-Based Access Control (RBAC) is applied, so only users with the appropriate 
 
 ## Auth Routes
 
-| Method | Endpoint      | Description            | Access |
-| ------ | ------------- | ---------------------- | ------ |
-| POST   | `/auth/login` | User/Agent/Admin login | Public |
+| Method | Endpoint             | Description            | Access |
+| ------ | -------------------- | ---------------------- | ------ |
+| POST   | `/api/v1/auth/login` | User/Agent/Admin login | Public |
 
 ---
 
 ## User Routes
 
-| Method | Endpoint           | Description                   | Access |
-| ------ | ------------------ | ----------------------------- | ------ |
-| POST   | `/user/register`   | Register new User or Agent    | Public |
-| GET    | `/user/`           | Get all users                 | Admin  |
-| PATCH  | `/user/:id/status` | Approve or suspend User/Agent | Admin  |
+| Method | Endpoint                  | Description                   | Access |
+| ------ | ------------------------- | ----------------------------- | ------ |
+| POST   | `/api/v1/user/register`   | Register new User or Agent    | Public |
+| GET    | `/api/v1/user`            | Get all users                 | Admin  |
+| PATCH  | `/api/v1/user/:id/status` | Approve or suspend User/Agent | Admin  |
 
 ---
 
 ## Wallet Routes
 
-| Method | Endpoint             | Description                        | Access      |
-| ------ | -------------------- | ---------------------------------- | ----------- |
-| GET    | `/wallet/`           | Get all wallets                    | Admin       |
-| POST   | `/wallet/withdraw`   | Withdraw money from wallet         | User, Agent |
-| POST   | `/wallet/send-money` | Send money to another user         | User        |
-| POST   | `/wallet/add-money`  | Add money to user wallet (cash-in) | Agent       |
-| PATCH  | `/wallet/:id/block`  | Block or unblock a wallet          | Admin       |
+| Method | Endpoint                    | Description                        | Access      |
+| ------ | --------------------------- | ---------------------------------- | ----------- |
+| GET    | `/wallet`                   | Get all wallets                    | Admin       |
+| POST   | `/api/v1/wallet/withdraw`   | Withdraw money from wallet         | User, Agent |
+| POST   | `/api/v1/wallet/send-money` | Send money to another user         | User        |
+| POST   | `/api/v1/wallet/add-money`  | Add money to user wallet (cash-in) | Agent       |
+| PATCH  | `/api/v1/wallet/:id/block`  | Block or unblock a wallet          | Admin       |
 
 ---
 
 ## Transaction Routes
 
-| Method | Endpoint                       | Description                        | Access      |
-| ------ | ------------------------------ | ---------------------------------- | ----------- |
-| GET    | `/transaction`                 | Get all transactions               | Admin       |
-| GET    | `/transaction/my-transactions` | Get transactions of own user/agent | User, Agent |
+| Method | Endpoint                              | Description                        | Access      |
+| ------ | ------------------------------------- | ---------------------------------- | ----------- |
+| GET    | `/api/v1/transaction`                 | Get all transactions               | Admin       |
+| GET    | `/api/v1/transaction/my-transactions` | Get transactions of own user/agent | User, Agent |
 
 ---
 

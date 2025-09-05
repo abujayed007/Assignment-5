@@ -5,7 +5,12 @@ import httpStatus from "http-status-codes";
 import bcryptjs from "bcryptjs";
 import { envVars } from "../../config/env";
 import { Wallet } from "../wallet/wallet.model";
-import { Transaction } from "../transaction/transaction.model";
+
+const getAllUsers = async (payload: Partial<IUser>) => {
+  const users = await User.find();
+
+  return users;
+};
 
 const createUser = async (payload: Partial<IUser>) => {
   const { phone, password, ...rest } = payload;
@@ -37,7 +42,25 @@ const createUser = async (payload: Partial<IUser>) => {
   return user;
 };
 
+const userSuspendOrApproved = async (
+  id: string,
+  status: "ACTIVE" | "SUSPENDED"
+) => {
+  const agent = await User.findOneAndUpdate(
+    { _id: id, role: Role.AGENT },
+    { status },
+    { new: true }
+  );
+
+  if (!agent) {
+    throw new AppError(httpStatus.NOT_FOUND, "Agent not found");
+  }
+
+  return agent;
+};
+
 export const UserServices = {
   createUser,
-  // topUpBalance,
+  getAllUsers,
+  userSuspendOrApproved,
 };

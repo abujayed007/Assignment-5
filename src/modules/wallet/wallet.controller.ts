@@ -6,29 +6,14 @@ import { AuthRequest } from "../../middlewares/checkAuth";
 import { catchAsync } from "../../utils/catchAsync";
 import httpStatus from "http-status-codes";
 
-const addMoney = catchAsync(async (req: AuthRequest, res: Response) => {
-  try {
-    const { balance } = req.body;
-    if (!balance || balance <= 0) throw new AppError(400, "Invalid balance");
-
-    const userId = req.user!._id;
-
-    const wallet = await WalletServices.addMoney(userId, Number(balance));
-
-    sendResponse(res, {
-      statusCode: httpStatus.ACCEPTED,
-      success: true,
-      message: "Deposit successful",
-      data: wallet,
-    });
-  } catch (error: any) {
-    sendResponse(res, {
-      statusCode: 500,
-      success: false,
-      message: error.message || "Something went wrong",
-      data: null,
-    });
-  }
+const getAllWallets = catchAsync(async (req: Request, res: Response) => {
+  const wallets = await WalletServices.getAllWallets(req.body);
+  sendResponse(res, {
+    statusCode: httpStatus.ACCEPTED,
+    success: true,
+    message: "All wallets retrive successful",
+    data: wallets,
+  });
 });
 
 const withdrawMoney = catchAsync(async (req: AuthRequest, res: Response) => {
@@ -68,8 +53,37 @@ const sendMoney = catchAsync(async (req: AuthRequest, res: Response) => {
   });
 });
 
+const addMoney = catchAsync(async (req: AuthRequest, res: Response) => {
+  const { balance, userPhone } = req.body;
+  const agentPhone = req.user!.phone;
+
+  const result = await WalletServices.addMoney(agentPhone, userPhone, balance);
+
+  sendResponse(res, {
+    statusCode: httpStatus.ACCEPTED,
+    success: true,
+    message: `Add Money to ${agentPhone} successful`,
+    data: result,
+  });
+});
+
+const blockWallet = catchAsync(async (req: AuthRequest, res: Response) => {
+  const { id } = req.params;
+
+  const wallet = await WalletServices.blockWallet(id, req.body);
+
+  sendResponse(res, {
+    statusCode: httpStatus.ACCEPTED,
+    success: true,
+    message: "Send Money successful",
+    data: wallet,
+  });
+});
+
 export const WalletController = {
-  addMoney,
+  getAllWallets,
   withdrawMoney,
   sendMoney,
+  blockWallet,
+  addMoney,
 };

@@ -7,7 +7,7 @@ export enum Role {
 }
 
 export enum Status {
-  ACTIVE = "ACTIVE",
+  APPROVED = "APPROVED",
   BLOCKED = "BLOCKED",
   PENDING = "PENDING",
   SUSPENDED = "SUSPENDED",

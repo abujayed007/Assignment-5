@@ -1,19 +1,19 @@
 import { model, Schema, Types } from "mongoose";
-import { ITransaction } from "./transaction.interface";
+import { ITransaction, TxnStatus, TxnType } from "./transaction.interface";
 
 const transactionSchema = new Schema<ITransaction>(
   {
     type: {
       type: String,
-      enum: ["add_money", "withdraw", "send", "cash_in", "cash_out"],
+      enum: Object.values(TxnType),
       required: true,
     },
     status: {
       type: String,
-      enum: ["pending", "success", "failed"],
-      default: "pending",
+      enum: Object.values(TxnStatus),
+      default: TxnStatus.SUCCESS,
     },
-    amount: { type: Number, required: true },
+    balance: { type: Number, required: true },
     fromWallet: { type: Types.ObjectId, ref: "Wallet" },
     toWallet: { type: Types.ObjectId, ref: "Wallet" },
   },

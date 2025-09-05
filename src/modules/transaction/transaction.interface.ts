@@ -1,18 +1,23 @@
 import { Types } from "mongoose";
 
-export type TxnType =
-  | "add_money"
-  | "withdraw"
-  | "send"
-  | "cash_in"
-  | "cash_out";
+export enum TxnType {
+  ADDMONEY = "ADDMONEY",
+  WITHDRAW = "WITHDRAW",
+  SENDMONEY = "SENDMONEY",
+  CASHIN = "CASHIN",
+  CASHOUT = "CASHOUT",
+}
 
-export type TxnStatus = "pending" | "success" | "failed";
+export enum TxnStatus {
+  PENDING = "PENDING",
+  SUCCESS = "SUCCESS",
+  FAILED = "FAILED",
+}
 
 export interface ITransaction {
   type: TxnType;
   status: TxnStatus;
-  amount: number;
+  balance: number;
   fromWallet?: Types.ObjectId;
   toWallet?: Types.ObjectId;
 }

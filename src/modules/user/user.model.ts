@@ -10,7 +10,11 @@ const userSchema = new Schema<IUser>({
     enum: Object.values(Role),
     required: true,
   },
-  status: { type: String, enum: Object.values(Status), default: Status.ACTIVE },
+  status: {
+    type: String,
+    enum: Object.values(Status),
+    default: Status.APPROVED,
+  },
   commisionRate: { type: Number, default: 0 },
 });
 

@@ -35,7 +35,7 @@ export const checkAuth =
       }
 
       if (
-        isUserExists.status === Status.BLOCKED ||
+        isUserExists.status === Status.PENDING ||
         isUserExists.status === Status.SUSPENDED
       ) {
         throw new AppError(

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { Role } from "./user.interface";
+import { Role, Status } from "./user.interface";
 
 export const createUserZodSchema = z.object({
   name: z
@@ -28,4 +28,8 @@ export const createUserZodSchema = z.object({
       message: "Role must be one of ADMIN, AGENT, USER",
     })
     .refine((val) => val !== undefined, { message: "Role is required" }),
+});
+
+export const updateStatus = z.object({
+  status: z.enum(Object.values([Status.APPROVED, Status.SUSPENDED])),
 });

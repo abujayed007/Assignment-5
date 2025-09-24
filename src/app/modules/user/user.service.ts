@@ -133,7 +133,7 @@ const updateProfile = async (userId: string, payload: Partial<IUser>) => {
 
 const userSuspendOrApproved = async (
   id: string,
-  status: "APPROVED" | "SUSPENDED" | "PENDING"
+  status: "APPROVED" | "SUSPENDED" | "PENDING" | "BLOCKED"
 ) => {
   const agent = await User.findOneAndUpdate(
     { _id: id },

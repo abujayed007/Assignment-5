@@ -31,5 +31,5 @@ export const createUserZodSchema = z.object({
 });
 
 export const updateStatus = z.object({
-  status: z.enum([Status.APPROVED, Status.SUSPENDED]),
+  status: z.enum([Status.APPROVED, Status.SUSPENDED, Status.BLOCKED]),
 });

@@ -7,7 +7,6 @@ import notFound from "./app/middlewares/notFound";
 
 export const app = express();
 
-app.use(cookieParser());
 app.use(express.json());
 
 app.use(
@@ -21,6 +20,7 @@ app.use(
   })
 );
 
+app.use(cookieParser());
 app.use("/api/v1", router);
 
 app.get("/", (req: Request, res: Response) => {

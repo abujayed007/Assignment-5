@@ -22,13 +22,15 @@ const credentialLogin = (0, catchAsync_1.catchAsync)(async (req, res) => {
 const logout = (0, catchAsync_1.catchAsync)(async (req, res) => {
     res.clearCookie("accessToken", {
         httpOnly: true,
-        secure: false,
-        sameSite: "lax",
+        secure: true,
+        sameSite: "none",
+        expires: new Date(0),
     });
     res.clearCookie("refreshToken", {
         httpOnly: true,
-        secure: false,
-        sameSite: "lax",
+        secure: true,
+        sameSite: "none",
+        expires: new Date(0),
     });
     (0, sendResponse_1.sendResponse)(res, {
         success: true,

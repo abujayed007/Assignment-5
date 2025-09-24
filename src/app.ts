@@ -9,7 +9,17 @@ export const app = express();
 
 app.use(cookieParser());
 app.use(express.json());
-app.use(cors());
+
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "https://digital-wallet-frontend-lake.vercel.app",
+      "https://digital-wallet-frontend-abujayed007-abujayed007s-projects.vercel.app",
+    ],
+    credentials: true,
+  })
+);
 
 app.use("/api/v1", router);
 

@@ -15,11 +15,25 @@ router.post(
 
 router.get("/", checkAuth(Role.ADMIN), UserControllers.getAllUsers);
 
+router.get("/users", checkAuth(Role.ADMIN), UserControllers.getUsers);
+
+router.get("/agents", checkAuth(Role.ADMIN), UserControllers.getAgents);
+
+router.get("/me", checkAuth(...Object.values(Role)), UserControllers.getMe);
+
+router.get("/:id", checkAuth(Role.ADMIN), UserControllers.getSingleUser);
+
 router.patch(
   "/:id/status",
   checkAuth(Role.ADMIN),
   validateRequest(updateStatus),
   UserControllers.userSuspendOrApproved
+);
+
+router.patch(
+  "/update-profile/:id",
+  checkAuth(...Object.values(Role)),
+  UserControllers.updateProfile
 );
 
 export const UserRoute = router;

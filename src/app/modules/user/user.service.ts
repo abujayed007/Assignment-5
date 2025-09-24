@@ -6,11 +6,65 @@ import httpStatus from "http-status-codes";
 import bcryptjs from "bcryptjs";
 import { envVars } from "../../config/env";
 import { Wallet } from "../wallet/wallet.model";
+import { QueryBuilder } from "../../utils/QueryBuilder";
 
 const getAllUsers = async (payload: Partial<IUser>) => {
-  const users = await User.find();
+  const users = await User.find({});
 
   return users;
+};
+
+const getSingleUser = async (userId: string) => {
+  const user = await User.findById(userId);
+
+  return user;
+};
+
+const getUsers = async (query: Record<string, string>) => {
+  const queryBuilder = new QueryBuilder(User.find({ role: Role.USER }), query);
+
+  const userSearchableField = ["name", "phone"];
+
+  const users = queryBuilder
+    .search(userSearchableField)
+    .filter()
+    .sort()
+    .fields()
+    .paginate();
+
+  const [data, meta] = await Promise.all([
+    users.build(),
+    queryBuilder.getMeta(),
+  ]);
+
+  return { data, meta };
+};
+
+const getAgents = async (query: Record<string, string>) => {
+  const queryBuilder = new QueryBuilder(User.find({ role: Role.AGENT }), query);
+
+  const agentSearchableField = ["name", "phone"];
+
+  const agents = queryBuilder
+    .search(agentSearchableField)
+    .filter()
+    .sort()
+    .fields()
+    .paginate();
+
+  const [data, meta] = await Promise.all([
+    agents.build(),
+    queryBuilder.getMeta(),
+  ]);
+
+  return { data, meta };
+};
+
+const getMe = async (phone: string) => {
+  const user = await User.findOne({ phone }).select("-password");
+  return {
+    data: user,
+  };
 };
 
 const createUser = async (payload: Partial<IUser>) => {
@@ -43,14 +97,51 @@ const createUser = async (payload: Partial<IUser>) => {
   return user;
 };
 
+const updateProfile = async (userId: string, payload: Partial<IUser>) => {
+  const user = await User.findById(userId);
+
+  if (!user) {
+    throw new AppError(httpStatus.NOT_FOUND, "User not found");
+  }
+
+  if (payload.role) {
+    if (user.role === Role.USER || user.role === Role.AGENT) {
+      throw new AppError(httpStatus.FORBIDDEN, "You are not authorized");
+    }
+  }
+
+  if (payload.status) {
+    if (user.role === Role.USER || user.role === Role.AGENT) {
+      throw new AppError(httpStatus.FORBIDDEN, "You are not authorized");
+    }
+  }
+
+  if (payload.password) {
+    payload.password = await bcryptjs.hash(
+      payload.password as string,
+      Number(envVars.BCRYPT_SALT_ROUND)
+    );
+  }
+
+  const updatedUser = await User.findByIdAndUpdate(userId, payload, {
+    new: true,
+    runValidators: true,
+  });
+
+  return updatedUser;
+};
+
 const userSuspendOrApproved = async (
   id: string,
-  status: "ACTIVE" | "SUSPENDED"
+  status: "APPROVED" | "SUSPENDED" | "PENDING"
 ) => {
   const agent = await User.findOneAndUpdate(
-    { _id: id, role: Role.AGENT },
+    { _id: id },
     { status },
-    { new: true }
+    {
+      new: true,
+      runValidators: true,
+    }
   );
 
   if (!agent) {
@@ -63,5 +154,10 @@ const userSuspendOrApproved = async (
 export const UserServices = {
   createUser,
   getAllUsers,
+  getUsers,
   userSuspendOrApproved,
+  getMe,
+  updateProfile,
+  getAgents,
+  getSingleUser,
 };

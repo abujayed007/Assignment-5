@@ -15,7 +15,7 @@ const userSchema = new mongoose_1.Schema({
     status: {
         type: String,
         enum: Object.values(user_interface_1.Status),
-        default: user_interface_1.Status.APPROVED,
+        default: user_interface_1.Status.PENDING,
     },
     commisionRate: { type: Number, default: 0 },
 });

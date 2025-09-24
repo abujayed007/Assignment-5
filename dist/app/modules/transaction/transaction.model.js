@@ -15,7 +15,7 @@ const transactionSchema = new mongoose_1.Schema({
         default: transaction_interface_1.TxnStatus.SUCCESS,
     },
     balance: { type: Number, required: true },
-    fromWallet: { type: mongoose_1.Types.ObjectId, ref: "Wallet" },
-    toWallet: { type: mongoose_1.Types.ObjectId, ref: "Wallet" },
+    fromWallet: { type: mongoose_1.Types.ObjectId, ref: "User" },
+    toWallet: { type: mongoose_1.Types.ObjectId, ref: "User" },
 }, { timestamps: true });
 exports.Transaction = (0, mongoose_1.model)("Transaction", transactionSchema);

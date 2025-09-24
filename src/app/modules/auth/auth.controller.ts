@@ -7,7 +7,6 @@ import setAuthCookie from "../../utils/setCookie";
 
 const credentialLogin = catchAsync(async (req: Request, res: Response) => {
   const loginInfo = await AuthServices.credentialLogin(req.body);
-  console.log(loginInfo);
 
   setAuthCookie(res, loginInfo);
 

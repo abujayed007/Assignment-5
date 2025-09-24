@@ -11,7 +11,6 @@ const http_status_codes_1 = __importDefault(require("http-status-codes"));
 const setCookie_1 = __importDefault(require("../../utils/setCookie"));
 const credentialLogin = (0, catchAsync_1.catchAsync)(async (req, res) => {
     const loginInfo = await auth_service_1.AuthServices.credentialLogin(req.body);
-    console.log(loginInfo);
     (0, setCookie_1.default)(res, loginInfo);
     (0, sendResponse_1.sendResponse)(res, {
         success: true,

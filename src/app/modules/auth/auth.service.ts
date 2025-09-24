@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import AppError from "../../errorHelpers/AppError";
-import { IUser } from "../user/user.interface";
+import { IUser, Status } from "../user/user.interface";
 import { User } from "../user/user.model";
 import httpStatus from "http-status-codes";
 import bcryptjs from "bcryptjs";
@@ -13,6 +13,16 @@ const credentialLogin = async (payload: Partial<IUser>) => {
 
   if (!isUserExists) {
     throw new AppError(httpStatus.BAD_REQUEST, "User does not exist");
+  }
+
+  if (
+    isUserExists.status === Status.BLOCKED ||
+    isUserExists.status === Status.SUSPENDED
+  ) {
+    throw new AppError(
+      httpStatus.BAD_REQUEST,
+      `You are ${isUserExists.status}. Please contact with our support team`
+    );
   }
 
   const isPasswordMatched = await bcryptjs.compare(

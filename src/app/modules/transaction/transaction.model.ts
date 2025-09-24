@@ -14,8 +14,8 @@ const transactionSchema = new Schema<ITransaction>(
       default: TxnStatus.SUCCESS,
     },
     balance: { type: Number, required: true },
-    fromWallet: { type: Types.ObjectId, ref: "Wallet" },
-    toWallet: { type: Types.ObjectId, ref: "Wallet" },
+    fromWallet: { type: Types.ObjectId, ref: "User" },
+    toWallet: { type: Types.ObjectId, ref: "User" },
   },
   { timestamps: true }
 );

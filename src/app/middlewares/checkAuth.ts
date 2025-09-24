@@ -16,11 +16,12 @@ export const checkAuth =
   (...authRoles: string[]) =>
   async (req: AuthRequest, res: Response, next: NextFunction) => {
     try {
-      const accessToken = req.headers.authorization;
+      const accessToken = req.headers.authorization || req.cookies.accessToken;
 
       if (!accessToken) {
         throw new AppError(403, "No token received");
       }
+
       const verifiedToken = verifyToken(
         accessToken,
         envVars.JWT_ACCESS_SECRET
@@ -47,6 +48,7 @@ export const checkAuth =
       if (!verifiedToken) {
         throw new AppError(403, `User not authorized ${verifiedToken}`);
       }
+
       if (!authRoles.includes(verifiedToken.role)) {
         throw new AppError(403, "You are not permitted");
       }

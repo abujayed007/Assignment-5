@@ -13,7 +13,7 @@ const userSchema = new Schema<IUser>({
   status: {
     type: String,
     enum: Object.values(Status),
-    default: Status.APPROVED,
+    default: Status.PENDING,
   },
   commisionRate: { type: Number, default: 0 },
 });

@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthServices = void 0;
 /* eslint-disable @typescript-eslint/no-unused-vars */
 const AppError_1 = __importDefault(require("../../errorHelpers/AppError"));
+const user_interface_1 = require("../user/user.interface");
 const user_model_1 = require("../user/user.model");
 const http_status_codes_1 = __importDefault(require("http-status-codes"));
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
@@ -15,6 +16,10 @@ const credentialLogin = async (payload) => {
     const isUserExists = await user_model_1.User.findOne({ phone });
     if (!isUserExists) {
         throw new AppError_1.default(http_status_codes_1.default.BAD_REQUEST, "User does not exist");
+    }
+    if (isUserExists.status === user_interface_1.Status.BLOCKED ||
+        isUserExists.status === user_interface_1.Status.SUSPENDED) {
+        throw new AppError_1.default(http_status_codes_1.default.BAD_REQUEST, `You are ${isUserExists.status}. Please contact with our support team`);
     }
     const isPasswordMatched = await bcryptjs_1.default.compare(password, isUserExists.password);
     if (!isPasswordMatched) {

@@ -24,12 +24,12 @@ export const createUserZodSchema = z.object({
     .nonempty("Password is required"),
 
   role: z
-    .enum([Role.ADMIN, Role.AGENT, Role.USER], {
+    .enum([Role.AGENT, Role.USER], {
       message: "Role must be one of ADMIN, AGENT, USER",
     })
     .refine((val) => val !== undefined, { message: "Role is required" }),
 });
 
 export const updateStatus = z.object({
-  status: z.enum(Object.values([Status.APPROVED, Status.SUSPENDED])),
+  status: z.enum([Status.APPROVED, Status.SUSPENDED]),
 });

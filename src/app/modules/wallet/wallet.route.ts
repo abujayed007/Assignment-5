@@ -14,6 +14,12 @@ const router = Router();
 
 router.get("/", checkAuth(Role.ADMIN), WalletController.getAllWallets);
 
+router.get(
+  "/my-wallet",
+  checkAuth(Role.AGENT, Role.USER),
+  WalletController.getMyWallet
+);
+
 router.post(
   "/withdraw",
   checkAuth(Role.USER, Role.AGENT),

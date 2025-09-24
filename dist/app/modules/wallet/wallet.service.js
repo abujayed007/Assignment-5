@@ -16,6 +16,10 @@ const getAllWallets = async (payload) => {
     const wallets = await wallet_model_1.Wallet.find({});
     return wallets;
 };
+const getMyWallet = async (userId) => {
+    const wallet = await wallet_model_1.Wallet.findOne({ user: userId }).populate("user");
+    return wallet;
+};
 const withdrawMoney = async (userPhone, agentPhone, balance) => {
     if (balance <= 0) {
         throw new AppError_1.default(http_status_codes_1.default.BAD_REQUEST, "Invalid balance");
@@ -158,6 +162,7 @@ exports.WalletServices = {
     withdrawMoney,
     sendMoney,
     getAllWallets,
+    getMyWallet,
     blockWallet,
     addMoney,
 };

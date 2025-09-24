@@ -10,7 +10,14 @@ import { IWallet } from "./wallet.interface";
 
 const getAllWallets = async (payload: IWallet) => {
   const wallets = await Wallet.find({});
+
   return wallets;
+};
+
+const getMyWallet = async (userId: string) => {
+  const wallet = await Wallet.findOne({ user: userId }).populate("user");
+
+  return wallet;
 };
 
 const withdrawMoney = async (
@@ -219,6 +226,7 @@ export const WalletServices = {
   withdrawMoney,
   sendMoney,
   getAllWallets,
+  getMyWallet,
   blockWallet,
   addMoney,
 };

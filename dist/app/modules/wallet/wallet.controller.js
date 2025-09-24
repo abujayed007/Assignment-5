@@ -17,6 +17,17 @@ const getAllWallets = (0, catchAsync_1.catchAsync)(async (req, res) => {
         data: wallets,
     });
 });
+const getMyWallet = (0, catchAsync_1.catchAsync)(async (req, res) => {
+    const userId = req?.user.user;
+    console.log(userId);
+    const wallet = await wallet_service_1.WalletServices.getMyWallet(userId);
+    (0, sendResponse_1.sendResponse)(res, {
+        statusCode: http_status_codes_1.default.ACCEPTED,
+        success: true,
+        message: "Your wallet retrive successful",
+        data: wallet,
+    });
+});
 const withdrawMoney = (0, catchAsync_1.catchAsync)(async (req, res) => {
     const { balance, agentPhone } = req.body;
     const userPhone = req.user.phone;
@@ -62,6 +73,7 @@ const blockWallet = (0, catchAsync_1.catchAsync)(async (req, res) => {
 });
 exports.WalletController = {
     getAllWallets,
+    getMyWallet,
     withdrawMoney,
     sendMoney,
     blockWallet,

@@ -22,11 +22,11 @@ exports.createUserZodSchema = zod_1.z.object({
         .min(6, "Password must be at least 6 characters long")
         .nonempty("Password is required"),
     role: zod_1.z
-        .enum([user_interface_1.Role.ADMIN, user_interface_1.Role.AGENT, user_interface_1.Role.USER], {
+        .enum([user_interface_1.Role.AGENT, user_interface_1.Role.USER], {
         message: "Role must be one of ADMIN, AGENT, USER",
     })
         .refine((val) => val !== undefined, { message: "Role is required" }),
 });
 exports.updateStatus = zod_1.z.object({
-    status: zod_1.z.enum(Object.values([user_interface_1.Status.APPROVED, user_interface_1.Status.SUSPENDED])),
+    status: zod_1.z.enum([user_interface_1.Status.APPROVED, user_interface_1.Status.SUSPENDED]),
 });

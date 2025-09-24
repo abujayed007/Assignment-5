@@ -9,6 +9,7 @@ const validateRequest_1 = require("../../middlewares/validateRequest");
 const wallet_validation_1 = require("./wallet.validation");
 const router = (0, express_1.Router)();
 router.get("/", (0, checkAuth_1.checkAuth)(user_interface_1.Role.ADMIN), wallet_controller_1.WalletController.getAllWallets);
+router.get("/my-wallet", (0, checkAuth_1.checkAuth)(user_interface_1.Role.AGENT, user_interface_1.Role.USER), wallet_controller_1.WalletController.getMyWallet);
 router.post("/withdraw", (0, checkAuth_1.checkAuth)(user_interface_1.Role.USER, user_interface_1.Role.AGENT), (0, validateRequest_1.validateRequest)(wallet_validation_1.withdrawSchema), wallet_controller_1.WalletController.withdrawMoney);
 router.post("/send-money", (0, checkAuth_1.checkAuth)(user_interface_1.Role.USER), (0, validateRequest_1.validateRequest)(wallet_validation_1.sendMoneySchema), wallet_controller_1.WalletController.sendMoney);
 router.post("/add-money", (0, checkAuth_1.checkAuth)(user_interface_1.Role.AGENT), (0, validateRequest_1.validateRequest)(wallet_validation_1.addMoneySchema), wallet_controller_1.WalletController.addMoney);

@@ -28,5 +28,5 @@ exports.createUserZodSchema = zod_1.z.object({
         .refine((val) => val !== undefined, { message: "Role is required" }),
 });
 exports.updateStatus = zod_1.z.object({
-    status: zod_1.z.enum([user_interface_1.Status.APPROVED, user_interface_1.Status.SUSPENDED]),
+    status: zod_1.z.enum([user_interface_1.Status.APPROVED, user_interface_1.Status.SUSPENDED, user_interface_1.Status.BLOCKED]),
 });
